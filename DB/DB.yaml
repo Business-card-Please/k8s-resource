@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: DB
+  namespace: database
 spec:
   selector:
     matchLabels:
@@ -16,22 +17,9 @@ spec:
         image: mariadb:latest
         ports:
         - containerPort: 3306
-        env:
-          - name: MYSQL_ROOT_PASSWORD 
-            valueFrom:
-              secretKeyRef:
-                name: DB-secret
-                key: MARIADB_ROOT_PASSWORD
-          - name: MYSQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: DB-secret
-                key: MARIADB_USER
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: DB-secret
-                key: MARIADB_PASSWORD
+        envFrom:
+          - secretRef:
+              name: DB-secret
         volumeMounts:
         - name: mariadb-storage
           mountPath: /var/lib/mysql
@@ -40,12 +28,14 @@ spec:
         persistentVolumeClaim:
           claimName: mariadb-pvc
 
+
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   name: DB-svc
+  namespace: database
 spec:
   selector:
     app: DB
