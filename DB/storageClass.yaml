@@ -1,0 +1,12 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: nks-block-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: blk.csi.ncloud.com
+volumeBindingMode: Immediate
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: SSD
