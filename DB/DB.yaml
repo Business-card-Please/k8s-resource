@@ -17,17 +17,25 @@ spec:
         image: mariadb:latest
         ports:
         - containerPort: 3306
-        envFrom:
-          - secretRef:
-              name: DB-secret
         volumeMounts:
-        - name: mariadb-storage
+        - name: mariadb-data
           mountPath: /var/lib/mysql
+        - name: init-config
+          mountPath: /docker-entrypoint-initdb.d
+      initContainers:
+      - name: init-mariadb
+        image: busybox
+        command: ['sh', '-c', 'cp /config/init.sql /docker-entrypoint-initdb.d/']
+        volumeMounts:
+        - name: init-config
+          mountPath: /config
       volumes:
-      - name: mariadb-storage
+      - name: mariadb-data
         persistentVolumeClaim:
-          claimName: mariadb-pvc
-
+          claimName: mariadb-data
+      - name: init-config
+        configMap:
+          name: mariadb-init-config
 
 ---
 

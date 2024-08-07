@@ -1,2 +1,3 @@
-secret.yaml
-cm.yaml
+configmap.yaml
+c_keeper_account_ddl.sql
+init.sql
