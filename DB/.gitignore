@@ -1,3 +1,4 @@
 configmap.yaml
 c_keeper_account_ddl.sql
 init.sql
+secret.yaml

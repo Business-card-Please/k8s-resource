@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: DB
+  name: db
   namespace: database
 spec:
   selector:
     matchLabels:
-      app: DB
+      app: db
   template:
     metadata:
       labels:
-        app: DB
+        app: db
     spec:
       containers:
-      - name: DB
+      - name: db
         image: mariadb:latest
         ports:
         - containerPort: 3306
@@ -22,10 +22,16 @@ spec:
           mountPath: /var/lib/mysql
         - name: init-config
           mountPath: /docker-entrypoint-initdb.d
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secrets
+              key: MARIADB_ROOT_PASSWORD
       initContainers:
       - name: init-mariadb
         image: busybox
-        command: ['sh', '-c', 'cp /config/init.sql /docker-entrypoint-initdb.d/']
+        command: ['sh', '-c', 'cp /config/init.sql /docker-entrypoint-initdb.d']
         volumeMounts:
         - name: init-config
           mountPath: /config
@@ -42,11 +48,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: DB-svc
+  name: db-svc
   namespace: database
 spec:
   selector:
-    app: DB
+    app: db
   ports:
   - port: 13305
     targetPort: 3306
