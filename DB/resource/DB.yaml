@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: db
   namespace: database
@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: db
+  serviceName: "db-svc"
+  replicas: 1
   template:
     metadata:
       labels:
@@ -15,31 +17,25 @@ spec:
       containers:
       - name: db
         image: mariadb:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3306
         volumeMounts:
         - name: mariadb-data
           mountPath: /var/lib/mysql
-        - name: init-config
-          mountPath: /docker-entrypoint-initdb.d
+        - name: mariadb-init-config
+          mountPath: /docker-entrypoint-initdb.d/
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mariadb-secrets
               key: MARIADB_ROOT_PASSWORD
-      initContainers:
-      - name: init-mariadb
-        image: busybox
-        command: ['sh', '-c', 'cp /config/init.sql /docker-entrypoint-initdb.d']
-        volumeMounts:
-        - name: init-config
-          mountPath: /config
       volumes:
       - name: mariadb-data
         persistentVolumeClaim:
           claimName: mariadb-data
-      - name: init-config
+      - name: mariadb-init-config
         configMap:
           name: mariadb-init-config
 
