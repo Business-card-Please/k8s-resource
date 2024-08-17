@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: BE-account
+  namespace: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: BE-account
+  template:
+    metadata:
+      labels:
+        app: BE-account
+    spec:
+      containers:
+      - name: BE-account
+        image: <your-image-here>
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: BE-account-svc
+  namespace: BE-account
+spec:
+  type: LoadBalancer
+  selector:
+    app: BE-account
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
