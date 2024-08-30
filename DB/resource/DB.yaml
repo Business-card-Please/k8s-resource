@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: db
+  name: account-db
   namespace: database
 spec:
   selector:
     matchLabels:
-      app: db
-  serviceName: "db-svc"
+      app: account-db
+  serviceName: "account-db-svc"
   replicas: 1
   template:
     metadata:
       labels:
-        app: db
+        app: account-db
     spec:
       containers:
-      - name: db
+      - name: account-db
         image: mariadb:latest
         imagePullPolicy: Always
         ports:
@@ -44,11 +44,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: db-svc
+  name: account-db-svc
   namespace: database
 spec:
   selector:
-    app: db
+    app: account-db
   ports:
-  - port: 13305
+  - port: 3306
     targetPort: 3306

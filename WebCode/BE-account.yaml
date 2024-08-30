@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-account
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-account
+  template:
+    metadata:
+      labels:
+        app: backend-account
+    spec:
+      containers:
+      - name: backend-account
+        image: grovince/c-keeper:account-v3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: backend-account-svc
+#   namespace: backend
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: backend-account
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 8080
