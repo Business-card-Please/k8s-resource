@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-db-access
+  namespace: database
+spec:
+  podSelector:
+    matchLabels:
+      app: account-db  # 데이터베이스 파드의 라벨
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: backend  # 접근을 허용할 네임스페이스
+    ports:
+    - protocol: TCP
+      port: 3306  # 데이터베이스 서비스의 포트

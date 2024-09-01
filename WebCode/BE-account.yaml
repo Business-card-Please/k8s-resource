@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend-account
-        image: grovince/c-keeper:account-v3
+        image: grovince/c-keeper:account-v5
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
