@@ -15,23 +15,23 @@ spec:
     spec:
       containers:
       - name: backend-account
-        image: grovince/c-keeper:account-v5
+        image: grovince/c-keeper:account-v7
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: 9990
 
-# ---
+---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: backend-account-svc
-#   namespace: backend
-# spec:
-#   type: LoadBalancer
-#   selector:
-#     app: backend-account
-#   ports:
-#     - protocol: TCP
-#       port: 80
-#       targetPort: 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-account-svc
+  namespace: backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: backend-account
+  ports:
+    - protocol: TCP
+      port: 9990
+      targetPort: 9990
