@@ -25,6 +25,9 @@ spec:
           mountPath: /var/lib/mysql
         - name: mariadb-init-config
           mountPath: /docker-entrypoint-initdb.d/
+        # - name: mariadb-config
+        #   mountPath: /etc/mysql/my.cnf
+        #   subPath: my.cnf
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
@@ -38,6 +41,9 @@ spec:
       - name: mariadb-init-config
         configMap:
           name: mariadb-init-config
+      # - name: mariadb-config
+      #   configMap:
+      #     name: mariadb-config
 
 ---
 
