@@ -56,5 +56,5 @@ spec:
   selector:
     app: account-db
   ports:
-  - port: 13305
+  - port: 3306
     targetPort: 3306

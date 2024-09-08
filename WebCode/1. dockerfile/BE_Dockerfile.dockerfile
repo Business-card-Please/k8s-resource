@@ -2,7 +2,7 @@ FROM openjdk:24-ea-jdk-oraclelinux9
 
 WORKDIR /app
 
-COPY ../BE/dev/account/build/libs/account-0.0.1-SNAPSHOT.jar account-0.0.1-SNAPSHOT.jar
+COPY BE/dev/account/build/libs/account-0.0.1-SNAPSHOT.jar account-0.0.1-SNAPSHOT.jar
 
 EXPOSE 9990
 
