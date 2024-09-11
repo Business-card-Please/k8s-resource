@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rentalboard-db
+  namespace: database
+spec:
+  selector:
+    matchLabels:
+      app: rentalboard-db
+  serviceName: rentalboard-db-svc
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rentalboard-db
+    spec:
+      containers:
+      - name: rentalboard-db
+        image: mariadb:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: rentalboard-db-data
+          mountPath: /var/lib/mysql
+        - name: rentalboard-config
+          mountPath: /docker-entrypoint-initdb.d/
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secrets
+              key: MARIADB_ROOT_PASSWORD
+      volumes:
+      - name: rentalboard-db-data
+        persistentVolumeClaim:
+          claimName: rentalboard-db-data
+      - name: rentalboard-config
+        configMap:
+          name: rentalboard-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rentalboard-db-svc
+  namespace: database
+spec:
+  selector:
+    app: rentalboard-db
+  ports:
+  - port: 3306
+    targetPort: 3306

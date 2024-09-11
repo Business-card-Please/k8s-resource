@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: account-db
-  serviceName: "account-db-svc"
+  serviceName: account-db-svc
   replicas: 1
   template:
     metadata:
@@ -21,13 +21,10 @@ spec:
         ports:
         - containerPort: 3306
         volumeMounts:
-        - name: mariadb-data
+        - name: account-db-data
           mountPath: /var/lib/mysql
-        - name: mariadb-init-config
+        - name: account-config
           mountPath: /docker-entrypoint-initdb.d/
-        # - name: mariadb-config
-        #   mountPath: /etc/mysql/my.cnf
-        #   subPath: my.cnf
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
@@ -35,15 +32,12 @@ spec:
               name: mariadb-secrets
               key: MARIADB_ROOT_PASSWORD
       volumes:
-      - name: mariadb-data
+      - name: account-db-data
         persistentVolumeClaim:
-          claimName: mariadb-data
-      - name: mariadb-init-config
+          claimName: account-db-data
+      - name: account-config
         configMap:
-          name: mariadb-init-config
-      # - name: mariadb-config
-      #   configMap:
-      #     name: mariadb-config
+          name: account-config
 
 ---
 
