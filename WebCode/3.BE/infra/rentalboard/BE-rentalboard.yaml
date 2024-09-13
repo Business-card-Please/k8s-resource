@@ -1,37 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-account
+  name: backend-rentalboard
   namespace: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-account
+      app: backend-rentalboard
   template:
     metadata:
       labels:
-        app: backend-account
+        app: backend-rentalboard
     spec:
       containers:
-      - name: backend-account
-        image: grovince/c-keeper:account-v14
+      - name: backend-rentalboard
+        image: grovince/c-keeper:rentalboard-v4
         imagePullPolicy: Always
         ports:
-        - containerPort: 9990
+        - containerPort: 9991
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-account-svc
+  name: backend-rentalboard-svc
   namespace: backend
 spec:
   type: NodePort
   selector:
-    app: backend-account
+    app: backend-rentalboard
   ports:
     - protocol: TCP
-      port: 9990
-      targetPort: 9990
+      port: 9991
+      targetPort: 9991
