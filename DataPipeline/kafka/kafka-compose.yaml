@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - snapshot.trust.empty=true
+    volumes: # 파일을 공유할 폴더를 입력
+      - ./data/zookeeper:/bitnami/zookeeper # : 뒷단은 로컬에서도 접근할 수 있는 폴더, 로그
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      # 카프카 기본 포트는 9092 번호로 사용
+      - "29092:29092" # 호스트 시스템과 컨테이너 외부 통신을 위한 포트포워딩 
+    environment:
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 # kafka가 연결할 zookeeper 컨테이너
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092,EXTERNAL://:29092 # 클라이언트가 kafka 브로커에 연결할 때 사용할 리스너 정의
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://${PUBLIC_IP}:29092 # 클라이언트가 브로커에 연결할 때 사용할 주소를 정의
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT # 카프카 보안을 위한 프로토콜 맵핑
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL # 도커 내부에서 사용할 리스너 이름 지정
+      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1 # 싱글 브로커인 경우 
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      
+    volumes:
+      - ./data/kafka:/bitnami/kafka # 주키퍼와 동일하게 로그가 작성되는 경로 지정
+  
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true # kafka 클러스터 설정을 ui에서 동적으로 변경가능하도록 함
+      - KAFKA_CLUSTERS_0_NAME=kafka # kafka ui에 표시될 kafka 클러스터의 이름 
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
