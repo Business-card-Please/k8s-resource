@@ -1,1 +1,3 @@
-airflow-values.yaml
+kafka/.env
+kafka connect/kafka-connect-configmap.yaml
+debezium/debezium-secret.yaml
