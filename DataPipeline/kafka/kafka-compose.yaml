@@ -27,7 +27,7 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL # 도커 내부에서 사용할 리스너 이름 지정
       - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1 # 싱글 브로커인 경우 
       - ALLOW_PLAINTEXT_LISTENER=yes
-      
+      # - KAFKA_CREATE_TOPICS="test-topic:1:1" # Topic 명 : Partition 개수 : Replica 개수
     volumes:
       - ./data/kafka:/bitnami/kafka # 주키퍼와 동일하게 로그가 작성되는 경로 지정
   
@@ -41,5 +41,5 @@ services:
     environment:
       - DYNAMIC_CONFIG_ENABLED=true # kafka 클러스터 설정을 ui에서 동적으로 변경가능하도록 함
       - KAFKA_CLUSTERS_0_NAME=kafka # kafka ui에 표시될 kafka 클러스터의 이름 
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
