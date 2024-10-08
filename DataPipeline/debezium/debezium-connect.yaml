@@ -2,6 +2,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
   name: debezium-connector
+  namespace: kafka
   labels:
     strimzi.io/cluster: debezium-connect-cluster
 spec:
@@ -13,13 +14,8 @@ spec:
     database.user: ${secrets:debezium/debezium-secret:username}
     database.password: ${secrets:debezium/debezium-secret:password}
     database.server.id: 184054
+    database.server.name: rentalboard-db
     topic.prefix:  mariadb
     database.include.list: inventory
-    schema.history.internal.kafka.bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    schema.history.internal.kafka.bootstrap.servers: 211.188.51.240:29092
     schema.history.internal.kafka.topic: dbhistory.mariadb
-  env:
-    - name: KAFKA_BOOTSTRAP_SERVERS
-      valueFrom:
-        configMapKeyRef:
-          name: kafka-config
-          key: KAFKA_BOOTSTRAP_SERVERS

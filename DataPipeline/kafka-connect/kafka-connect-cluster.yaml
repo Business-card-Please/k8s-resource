@@ -4,19 +4,14 @@ metadata:
   name: debezium-connect-cluster
   annotations:
     strimzi.io/use-connector-resources: "true"
+  namespace: kafka
 spec:
   version: 3.1.0
   replicas: 1
-  image: grovince/c-keeper:kafka-connect-v1
-  imagePullPolicy: Always
-  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS}
+  image: quay.io/debezium/connect:1.9
+  #imagePullPolicy: Always
+  bootstrapServers: 211.188.51.240:29092
   config:
     config.providers: secrets
     config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
     group.id: debezium-mariadb-connect-cluster
-  env:
-    - name: KAFKA_BOOTSTRAP_SERVERS
-      valueFrom:
-        configMapKeyRef:
-          name: kafka-config
-          key: KAFKA_BOOTSTRAP_SERVERS
