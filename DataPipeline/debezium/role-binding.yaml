@@ -2,11 +2,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: connector-configuration-role-binding
-  namespace: debezium
+  namespace: kafka
 subjects:
 - kind: ServiceAccount
   name: debezium-connect-cluster-connect
-  namespace: debezium
+  namespace: kafka
 roleRef:
   kind: Role
   name: connector-configuration-role

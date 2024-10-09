@@ -2,10 +2,12 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
   name: debezium-connector
+  namespace: kafka
   labels:
     strimzi.io/cluster: debezium-connect-cluster
 spec:
   class: io.debezium.connector.mysql.MySqlConnector
+  
   config:
     tasks.max: 1
     database.hostname: rentalboard-db-svc
@@ -15,11 +17,12 @@ spec:
     database.server.id: 184054
     topic.prefix:  mariadb
     database.include.list: inventory
-    schema.history.internal.kafka.bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVERS}
-    schema.history.internal.kafka.topic: dbhistory.mariadb
-  env:
-    - name: KAFKA_BOOTSTRAP_SERVERS
-      valueFrom:
-        configMapKeyRef:
-          name: kafka-config
-          key: KAFKA_BOOTSTRAP_SERVERS
+    schema.history.internal.kafka.bootstrap.servers: 211.188.51.240:9092
+    schema.history.internal.kafka.topic: dbhistory.inventory
+    # schema.history.internal.kafka.topic: dbhistory.mariadb
+  # env:
+  #   - name: KAFKA_BOOTSTRAP_SERVERS
+  #     valueFrom:
+  #       configMapKeyRef:
+  #         name: kafka-config
+  #         key: KAFKA_BOOTSTRAP_SERVERS

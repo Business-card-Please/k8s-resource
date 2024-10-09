@@ -1,0 +1,29 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: debezium-connect-cluster
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+  labels: 
+    strimzi.io/cluster: debezium-connect-cluster
+  namespace: kafka
+spec:
+  version: 3.1.0
+  replicas: 1
+  image: grovince/c-keeper:kafka-connect-v1
+  # tls:
+  #   trustedCertificates:
+  #     - secretName: my-cluster-cluster-ca-cert
+  #       certificate: ca.crt
+  # imagePullPolicy: Always
+  bootstrapServers: 211.188.51.240:9092
+  config:
+    config.providers: secrets
+    config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
+    group.id: debezium-mariadb-kafka-connect-cluster
+  # env:
+  #   - name: KAFKA_BOOTSTRAP_SERVERS
+  #     valueFrom:
+  #       configMapKeyRef:
+  #         name: kafka-config
+  #         key: KAFKA_BOOTSTRAP_SERVERS
