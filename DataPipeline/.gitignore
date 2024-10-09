@@ -1,3 +1,4 @@
 kafka/.env
-kafka connect/kafka-connect-configmap.yaml
+kafka-connect/kafka-connect-configmap.yaml
+kafka-connect/docker-secret.yaml
 debezium/debezium-secret.yaml
