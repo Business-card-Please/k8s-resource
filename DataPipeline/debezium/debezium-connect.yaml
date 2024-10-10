@@ -11,8 +11,8 @@ spec:
     tasks.max: 1
     database.hostname: rentalboard-db-svc
     database.port: 3306
-    database.user: ${secrets:debezium/debezium-secret:username}
-    database.password: ${secrets:debezium/debezium-secret:password}
+    database.user: ${secrets:kafka/debezium-secret:username}
+    database.password: ${secrets:kafka/debezium-secret:password}
     database.server.id: 184054
     database.server.name: rentalboard-db
     database.include.list: c_keeper_rentalboard_db # 변경 사항을 캡처할 데이터베이스
@@ -20,5 +20,5 @@ spec:
     column.include.list: c_keeper_rentalboard_db.rentalboard.author,c_keeper_rentalboard_db.rentalboard.content,c_keeper_rentalboard_db.rentalboard.tags # 변경 사항을 캡처할 컬럼
     topic.prefix: mariadb 
     schema.history.internal.kafka.bootstrap.servers: 211.188.51.240:29092
-    schema.history.internal.kafka.topic: database.c_keeper_rentalboard_db
+    schema.history.internal.kafka.topic: databases.c_keeper_rentalboard_db
     include.schema.changes: true
