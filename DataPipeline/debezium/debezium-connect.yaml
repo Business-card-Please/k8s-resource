@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnector
 metadata:
-  name: debezium-connector
+  name: mariadb-debezium-connector
   namespace: kafka
   labels:
     strimzi.io/cluster: debezium-connect-cluster
@@ -15,15 +15,10 @@ spec:
     database.password: ${secrets:debezium/debezium-secret:password}
     database.server.id: 184054
     database.server.name: rentalboard-db
-    topic.prefix:  mariadb
-    database.include.list: inventory
-
-    schema.history.internal.kafka.bootstrap.servers: 211.188.51.240:9092
-    schema.history.internal.kafka.topic: dbhistory.inventory
-    # schema.history.internal.kafka.topic: dbhistory.mariadb
-  # env:
-  #   - name: KAFKA_BOOTSTRAP_SERVERS
-  #     valueFrom:
-  #       configMapKeyRef:
-  #         name: kafka-config
-  #         key: KAFKA_BOOTSTRAP_SERVERS
+    database.include.list: c_keeper_rentalboard_db # 변경 사항을 캡처할 데이터베이스
+    table.include.list: c_keeper_rentalboard_db.rentalboard # 변경 사항을 캡처할 테이블
+    column.include.list: c_keeper_rentalboard_db.rentalboard.author,c_keeper_rentalboard_db.rentalboard.content,c_keeper_rentalboard_db.rentalboard.tags # 변경 사항을 캡처할 컬럼
+    topic.prefix: mariadb 
+    schema.history.internal.kafka.bootstrap.servers: 211.188.51.240:29092
+    schema.history.internal.kafka.topic: database.c_keeper_rentalboard_db
+    include.schema.changes: true
