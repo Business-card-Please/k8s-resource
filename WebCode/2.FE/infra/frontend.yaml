@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: grovince/c-keeper:frontend-v1
+        image: grovince/c-keeper:frontend-v3
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -33,6 +33,5 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 3000
-

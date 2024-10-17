@@ -1,13 +1,15 @@
-FROM node:14-alpine
+FROM node:20.9.0-alpine
 
 WORKDIR /app
 
-COPY ./FE/package.json ./FE/package-lock.json ./
+COPY ./Frontend/package.json ./
 
-RUN npm install --only=production
+RUN npm install
+ 
+COPY ./Frontend ./
 
-COPY . .
+RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
