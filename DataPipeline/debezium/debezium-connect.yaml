@@ -9,7 +9,7 @@ spec:
   class: io.debezium.connector.mysql.MySqlConnector
   config:
     tasks.max: 1
-    database.hostname: rentalboard-db-svc
+    database.hostname: rentalboard-db-svc.database.svc.cluster.local
     database.port: 3306
     database.user: ${secrets:kafka/debezium-secret:username}
     database.password: ${secrets:kafka/debezium-secret:password}

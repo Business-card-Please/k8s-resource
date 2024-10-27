@@ -25,6 +25,8 @@ spec:
           mountPath: /var/lib/mysql
         - name: rentalboard-config
           mountPath: /docker-entrypoint-initdb.d/
+        - name: rentalboard-cnf
+          mountPath: /etc/mysql/conf.d
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
@@ -38,6 +40,9 @@ spec:
       - name: rentalboard-config
         configMap:
           name: rentalboard-config
+      - name: rentalboard-cnf
+        configMap:
+          name: rentalboard-cnf
 
 ---
 

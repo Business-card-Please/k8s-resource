@@ -1,37 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-rentalboard
+  name: backend-chat
   namespace: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-rentalboard
+      app: backend-chat
   template:
     metadata:
       labels:
-        app: backend-rentalboard
+        app: backend-chat
     spec:
       containers:
-      - name: backend-rentalboard
-        image: grovince/c-keeper:rentalboard-v5
+      - name: backend-chat
+        image: grovince/c-keeper:chat-v1
         imagePullPolicy: Always
         ports:
-        - containerPort: 9991
+        - containerPort: 9992
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-rentalboard-svc
+  name: backend-chat-svc
   namespace: backend
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
-    app: backend-rentalboard
+    app: backend-chat
   ports:
     - protocol: TCP
-      port: 9991
-      targetPort: 9991
+      port: 9992
+      targetPort: 9992

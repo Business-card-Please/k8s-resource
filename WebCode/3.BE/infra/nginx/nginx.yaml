@@ -36,7 +36,7 @@ metadata:
   name: nginx-svc
   namespace: backend
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: nginx
   ports:

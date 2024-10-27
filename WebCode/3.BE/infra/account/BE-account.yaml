@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend-account
-        image: grovince/c-keeper:account-v18
+        image: grovince/c-keeper:account-v25
         imagePullPolicy: Always
         ports:
         - containerPort: 9990
@@ -28,7 +28,7 @@ metadata:
   name: backend-account-svc
   namespace: backend
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: backend-account
   ports:

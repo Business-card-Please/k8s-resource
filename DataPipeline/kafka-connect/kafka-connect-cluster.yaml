@@ -36,3 +36,7 @@ spec:
         artifacts:
           - type: tgz
             url: https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/2.4.0.Final/debezium-connector-mysql-2.4.0.Final-plugin.tar.gz
+      - name: mariadb-jdbc-driver
+        artifacts:
+          - type: jar
+            url: https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar

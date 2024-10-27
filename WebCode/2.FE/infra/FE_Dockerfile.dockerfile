@@ -2,11 +2,11 @@ FROM node:20.9.0-alpine
 
 WORKDIR /app
 
-COPY ./Frontend/package.json ./
+COPY ./FrontEnd/package.json ./
 
 RUN npm install
  
-COPY ./Frontend ./
+COPY ./FrontEnd ./
 
 RUN npm run build
 

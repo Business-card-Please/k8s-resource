@@ -1,3 +1,4 @@
 account-configmap.yaml
 rentalboard-configmap.yaml
+rentalboard-cnf.yaml
 secret.yaml
