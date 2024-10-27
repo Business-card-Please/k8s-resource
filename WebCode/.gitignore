@@ -2,5 +2,4 @@
 /2.FE/FrontEnd
 /2.FE/FrontEnd/.env.local
 /3.BE/dev
-/3.BE/infra/nginx/nginx-config.yaml
 /3.BE/infra/nginx/nginx-cnf.yaml
